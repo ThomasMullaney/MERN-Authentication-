@@ -1,6 +1,8 @@
 "use strict"
 
-// get uniuqe error field name
+/*
+get uniuqe error field name
+*/
 
 const uniuqeMessage = error => {
     let output;
@@ -25,8 +27,7 @@ const uniuqeMessage = error => {
 
 // get the error message from error object
 exports.errorHandler = error => {
-    let message = "";
-
+    let message = ""
     if (error.code) {
         switch (error.code) {
             case 11000:

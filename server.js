@@ -1,26 +1,30 @@
 const express = require("express");
 const morgan = require("morgan");
-const config = require("./config/db");
+const connectDB = require("./config/db");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
 // config dotenv
 require('dotenv').config({
-    path: './config/config.env'
+    path: './config/config.example.env'
 })
 
 const app = express()
 
 // connect to db
+connectDB();
+
+// use body parser
 app.use(bodyParser.json())
 // load routes
-const authRouter = require('./routes/auth.route.js');
+const authRouter = require('./routes/auth.route');
 const userRouter = require('./routes/user.route');
+
 
 // dev login middleware
 if (process.env.NODE_ENV === 'development') {
     app.use(cors({
-        origin: procces.env.CLIENT_URL
+        origin: process.env.CLIENT_URL
     }))
     app.use(morgan('dev'))
 }

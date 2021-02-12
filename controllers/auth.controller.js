@@ -1,4 +1,4 @@
-const User = require("./models/auth.model");
+const User = require("../models/auth.model");
 const expressJwt = require("express-jwt");
 const _ = require("lodash");
 const { OAuth2Client } = require("google-auth-library");
@@ -6,13 +6,11 @@ const fetch = require("node-fetch");
 
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
-const { errorHandler } = require("../helpers/dbErrorHandling");
+const { errorHandler } = require("../helpers/dbErrorHandlers");
 const sgMail = require("@sendgrid/mail");
-const { json } = require("body-parser");
-const { first } = require("lodash");
 sgMail.setApiKey(process.env.MAIL_KEY);
 
-// registeration controller
+
 exports.registerController = (req, res) => {
   const { name, email, password } = req.body;
   const errors = validationResult(req);
@@ -26,7 +24,7 @@ exports.registerController = (req, res) => {
   } else {
     //   if no errors check to see if email is already registered
     User.findOne({
-      email,
+      email
     }).exec((err, user) => {
       if (user) {
         return res.status(400).json({

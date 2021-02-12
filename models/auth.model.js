@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const crypto = require('crypto');
-const { match } = require("assert");
+
 
 // User Schema
 const userSchema = new mongoose.Schema(
@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-// virtual
+// virtual password
 userSchema
     .virtual('password')
     .set(function(password) {
