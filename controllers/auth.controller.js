@@ -17,7 +17,7 @@ exports.registerController = (req, res) => {
 
   //   if errors is not empty send errors
   if (!errors.isEmpty()) {
-    const firstError = errors.array().map(error.msg)[0];
+    const firstError = errors.array().map(error => error.msg)[0];
     return res.status(422).json({
       errors: firstError,
     });
@@ -62,15 +62,16 @@ exports.registerController = (req, res) => {
     // send grid mailing
     sgMail
       .send(emailData)
-      .then((sent) => {
+      .then(sent => {
         return res.json({
           message: `Email sent to ${email}`,
         });
       })
-      .catch((err) => {
+      .catch(err => {
+        
         return res.status(400).json({
           success: false,
-          errors: errorHandler(err),
+          errors: console.log(err)
         });
       });
   }
@@ -122,7 +123,7 @@ exports.signinController = (req, res) => {
   const { email, password } = req.body;
   const errors = validateResult(req);
   if (!errors.isEmpty()) {
-    const firstError = errors.array().map((error) => error.msg)[0];
+    const firstError = errors.array().map(error => error.msg)[0];
     return res.status(422).json({
       errors: firstError,
     });
@@ -196,7 +197,7 @@ exports.forgotPasswordController = (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    const firstError = errors.array().map((error) => error.msg)[0];
+    const firstError = errors.array().map(error => error.msg)[0];
     return res.status(422).json({
       errors: firstError,
     });
@@ -276,7 +277,7 @@ exports.resetPasswordController = (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    const firstError = errors.array().map((error) => error.msg)[0];
+    const firstError = errors.array().map(error => error.msg)[0];
     return res.status(422).json({
       errors: firstError,
     });
@@ -428,7 +429,7 @@ exports.facebookController = (req, res) => {
           }
         });
       })
-      .catch((error) => {
+      .catch(error => {
         res.json({
           error: "Facebook login failed. Try again",
         });
