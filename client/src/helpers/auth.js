@@ -42,7 +42,7 @@ export const removeLocalStorage = key => {
     }
 };
 
-// Auth enticate user by passing data to cookie and localstorage during signin
+// Auth user after login enticate user by passing data to cookie and localstorage during signin
 export const authenticate = (response, next) => {
     console.log('AUTHENTICATE HELPER ON SIGNIN RESPONSE', response);
     setCookie('token', response.data.token);
@@ -64,11 +64,13 @@ export const isAuth = () => {
     }
 };
 
+// Signout
 export const signout = next => {
     removeCookie('token');
     removeLocalStorage('user');
     next();
 };
+
 
 export const updateUser = (response, next) => {
     console.log('UPDATE USER IN LOCALSTORAGE HELPERS', response);

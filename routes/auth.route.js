@@ -13,13 +13,14 @@ const {
 } = require("../controllers/auth.controller");
 
 const {
-    validSign,
+    validSignUp,
     validLogin,
     forgotPasswordValidator,
-    resetPasswordValidator
+    resetPasswordValidator,
+    
 } = require('../helpers/valid');
 
-router.post('/register', validSign, registerController);
+router.post('/register', validSignUp, registerController);
 router.post('/login', validLogin, signinController);
 router.post('/activation', activationController);
 

@@ -14,10 +14,13 @@ const Login = ({ history }) => {
     textChange: 'Sign In'
   });
   const { email, password1, textChange } = formData;
+
+  // handle changes from inputs
   const handleChange = text => e => {
     setFormData({ ...formData, [text]: e.target.value });
   };
 
+  // send google token
   const sendGoogleToken = tokenId => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/googlelogin`, {
@@ -29,8 +32,17 @@ const Login = ({ history }) => {
       })
       .catch(error => {
         console.log('GOOGLE SIGNIN ERROR', error.response);
+        toast.err('Google login error');
       });
   };
+
+  // get response from google
+  const responseGoogle = response => {
+    console.log(response);
+    sendGoogleToken(response.tokenId);
+  };
+
+  // if success we need to authenticate user and redirect
   const informParent = response => {
     authenticate(response, () => {
       isAuth() && isAuth().role === 'admin'
@@ -53,16 +65,13 @@ const Login = ({ history }) => {
         console.log('GOOGLE SIGNIN ERROR', error.response);
       });
   };
-  const responseGoogle = response => {
-    console.log(response);
-    sendGoogleToken(response.tokenId);
-  };
 
   const responseFacebook = response => {
     console.log(response);
     sendFacebookToken(response.userID, response.accessToken)
   };
 
+  // submit data to backend
   const handleSubmit = e => {
     console.log(process.env.REACT_APP_API_URL);
     e.preventDefault();
@@ -102,14 +111,16 @@ const Login = ({ history }) => {
     }
   };
   return (
+    
     <div className='min-h-screen bg-gray-100 text-gray-900 flex justify-center'>
+      <div id="fb-root"></div>    
       {isAuth() ? <Redirect to='/' /> : null}
       <ToastContainer />
       <div className='max-w-screen-xl m-0 sm:m-20 bg-white shadow sm:rounded-lg flex justify-center flex-1'>
         <div className='lg:w-1/2 xl:w-5/12 p-6 sm:p-12'>
           <div className='mt-12 flex flex-col items-center'>
             <h1 className='text-2xl xl:text-3xl font-extrabold'>
-              Sign In for Congar
+              Sign In for SpinIt
             </h1>
             <div className='w-full flex-1 mt-8 text-indigo-500'>
               <div className='flex flex-col items-center'>
@@ -131,6 +142,7 @@ const Login = ({ history }) => {
                     </button>
                   )}
                 ></GoogleLogin>
+                {/* <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-layout="rounded" data-auto-logout-link="false" data-use-continue-as="false"></div> */}
                 <FacebookLogin
                   appId={`${process.env.REACT_APP_FACEBOOK_CLIENT}`}
                   autoLoad={false}

@@ -15,9 +15,11 @@ const Register = () => {
   });
 
   const { name, email, password1, password2, textChange } = formData;
+  // handle input changes
   const handleChange = text => e => {
     setFormData({ ...formData, [text]: e.target.value });
   };
+  // submitt data to database
   const handleSubmit = e => {
     e.preventDefault();
     if (name && email && password1) {

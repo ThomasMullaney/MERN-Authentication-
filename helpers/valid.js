@@ -2,7 +2,7 @@ const {
     check 
 } = require('express-validator');
 
-exports.validSign = [
+exports.validSignUp = [
     check('name', 'Name is required').notEmpty()
     .isLength({
         min: 4,

@@ -10,21 +10,20 @@ const { errorHandler } = require("../helpers/dbErrorHandlers");
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.MAIL_KEY);
 
-
 exports.registerController = (req, res) => {
   const { name, email, password } = req.body;
   const errors = validationResult(req);
 
   //   if errors is not empty send errors
   if (!errors.isEmpty()) {
-    const firstError = errors.array().map(error => error.msg)[0];
+    const firstError = errors.array().map((error) => error.msg)[0];
     return res.status(422).json({
       errors: firstError,
     });
   } else {
     //   if no errors check to see if email is already registered
     User.findOne({
-      email
+      email,
     }).exec((err, user) => {
       if (user) {
         return res.status(400).json({
@@ -62,32 +61,35 @@ exports.registerController = (req, res) => {
     // send grid mailing
     sgMail
       .send(emailData)
-      .then(sent => {
+      .then((sent) => {
         return res.json({
           message: `Email sent to ${email}`,
         });
       })
-      .catch(err => {
-        
+      .catch((err) => {
         return res.status(400).json({
           success: false,
-          errors: console.log(err)
+          errors: console.log(err),
         });
       });
   }
 };
 
+// Activation and save to DB
 exports.activationController = (req, res) => {
   const { token } = req.body;
 
   if (token) {
+    // verify token is valid or not expired
     jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION, (err, decoded) => {
       if (err) {
-        console.log("Activation error");
+        console.log("Activation error", err);
         return res.status(401).json({
           errors: "Expired link. Signup again.",
         });
       } else {
+        // if valid save to database.
+        // get name email and password from token.
         const { name, email, password } = jwt.decode(token);
         console.log(email);
         const user = new User({
@@ -121,9 +123,9 @@ exports.activationController = (req, res) => {
 
 exports.signinController = (req, res) => {
   const { email, password } = req.body;
-  const errors = validateResult(req);
+  const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const firstError = errors.array().map(error => error.msg)[0];
+    const firstError = errors.array().map((error) => error.msg)[0];
     return res.status(422).json({
       errors: firstError,
     });
@@ -132,16 +134,19 @@ exports.signinController = (req, res) => {
       email,
     }).exec((err, user) => {
       if (err || !user) {
+        // validate user email is registered
         return res.status(400).json({
           errors: "User with that email does not exist. Please try again.",
         });
       }
+
       // authenticate
       if (!user.authenticate(password)) {
         return res.status(400).json({
           errors: "Email and password do not match",
         });
       }
+
       // generate token and send to client
       const token = jwt.sign(
         {
@@ -197,7 +202,7 @@ exports.forgotPasswordController = (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    const firstError = errors.array().map(error => error.msg)[0];
+    const firstError = errors.array().map((error) => error.msg)[0];
     return res.status(422).json({
       errors: firstError,
     });
@@ -277,7 +282,7 @@ exports.resetPasswordController = (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    const firstError = errors.array().map(error => error.msg)[0];
+    const firstError = errors.array().map((error) => error.msg)[0];
     return res.status(422).json({
       errors: firstError,
     });
@@ -333,26 +338,37 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT);
 // google login
 exports.googleController = (req, res) => {
   const { idToken } = req.body;
+  // get token from request
 
+  // verify token
   client
-    .verifyIdToken({ idToken, audience: process.env.GOOGLE_CLIENT })
+    .verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT
+    })
     .then((response) => {
       // console.log("GOOGLE LOGIN RESPONSE", response)
       const { email_verified, name, email } = response.payload;
+      // Check if email is verified
       if (email_verified) {
         User.findOne({ email }).exec((err, user) => {
+          // find if this email already exists
+          // if exists
           if (user) {
             const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
               expiresIn: "7d",
             });
+
             const { _id, email, name, role } = user;
+            // send response to client side(react) token and user info
             return res.json({
               token,
               user: { _id, email, name, role },
             });
           } else {
+            // if user does not exists we will save in database and generate passwordfor it
             let password = email + process.env.JWT_SECRET;
-            user = new User({ name, email, password });
+            user = new User({ name, email, password }); //create new user object with this email
             user.save((err, data) => {
               if (err) {
                 console.log("ERROR GOOGLE LOGIN ON USER SAVE", err);
@@ -360,6 +376,7 @@ exports.googleController = (req, res) => {
                   error: "User signup failed with google",
                 });
               }
+              // if no error create token
               const token = jwt.sign(
                 { _id: data._id },
                 process.env.JWT_SECRET,
@@ -368,12 +385,18 @@ exports.googleController = (req, res) => {
               const { _id, email, name, role } = data;
               return res.json({
                 token,
-                user: { _id, email, name, role },
+                user: {
+                  _id,
+                  email,
+                  name,
+                  role,
+                },
               });
             });
           }
         });
       } else {
+        // if error send error
         return res.status(400).json({
           error: "Google login failed. Try again",
         });
@@ -429,7 +452,7 @@ exports.facebookController = (req, res) => {
           }
         });
       })
-      .catch(error => {
+      .catch((error) => {
         res.json({
           error: "Facebook login failed. Try again",
         });

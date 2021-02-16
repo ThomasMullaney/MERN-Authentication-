@@ -14,6 +14,8 @@ const Activate = ({ match }) => {
   });
 
   useEffect(() => {
+    // get tokens from parameters like /activate/token
+    // then decode this token and get name
     let token = match.params.token;
     let { name } = jwt.decode(token);
 
