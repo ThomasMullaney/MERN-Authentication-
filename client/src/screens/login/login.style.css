@@ -1,0 +1,160 @@
+.parentDiv {
+    background-image: url(../../assets/recordscratch.gif);
+    background-size: cover;
+    background-position:center;
+    background-repeat: no-repeat;
+    color: Black;
+    justify-content: center;
+    
+}
+
+.loginDiv {
+    margin-top: 25px;
+    justify-items: auto;
+    flex-direction: column;
+}
+
+.spinItTitle {
+    text-align: center;
+    font-size: larger;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: bolder;
+    margin-top: 5rem;
+    color: #009124;
+    
+}
+
+.itemContainer {
+width: auto;
+margin-top: 5rem;
+}
+
+.buttonContainer {
+align-items: center;
+flex-direction: row;
+
+}
+
+.icon:hover { color:white}
+
+.signInBtn {
+    color: white;
+    background-color: black;
+    width: 100%;
+    font: bolder;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-radius: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: .8;
+    font-weight: 600; 
+    display: inline-block;
+}
+
+.btn-facebook, .btn-google, .btn-signup {
+    color: white;
+    background-color: black;
+    width: fit-content;
+    max-width: 20rem;
+    font: bolder;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-radius: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: .8;
+   
+}
+
+.btn-facebook div, .btn-google div, .btn-signup div {
+    padding: 0.5rem;
+    border-radius: 9999px;
+
+}
+
+.btn-facebook span, .btn-google span, .btn-signup span {
+    margin-right: 1rem;
+}
+
+.btn-facebook i, .btn-google i, .btn-signup i {
+    width: 1.5rem;
+    margin-left: 0.5rem;
+}
+
+.btn-facebook:hover, .signInBtn:hover{
+    color: black;
+    background: white;
+    box-shadow: 0 0 10px #002fff, 0 0 40px #002fff, 0 0 80px #2196f3;
+}
+
+
+.btn-google:hover{
+    color: rgb(214, 0, 0);
+    background: white;
+    box-shadow: 0 0 10px #ff002b, 0 0 40px #dd0303, 0 0 80px #ec0014;
+}
+
+.btn-signup:hover{
+    color: rgb(30, 182, 0);
+    background: white;
+    box-shadow: 0 0 10px green, 0 0 40px green, 0 0 80px greenyellow;
+
+}
+
+.pageBreak {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: solid whitesmoke;
+    text-align: center;
+}
+
+.pageBreakText {
+    padding-top: 1.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-bottom: 0.7rem;
+    line-height: 1;
+    display: inline-block;
+    font-size: 0.875rem;
+    color: white;
+    letter-spacing: 0.025em;
+    font-weight: 500;
+}
+
+.emailLogin {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 20rem;
+}
+
+.emailInputs {
+    width: 100%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    background-color: gainsboro;
+}
+
+.emailInputs:focus{
+    outline: none;
+    background-color: whitesmoke;
+    
+}
+

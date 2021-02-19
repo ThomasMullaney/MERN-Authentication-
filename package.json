@@ -7,10 +7,13 @@
     "start": "cross-env NODE_ENV=development & node server",
     "dev": "nodemon server.js"
   },
+  "homepage": "http://localhost/login",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@sendgrid/mail": "^6.5.5",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",

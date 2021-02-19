@@ -406,9 +406,9 @@ exports.googleController = (req, res) => {
 
 exports.facebookController = (req, res) => {
   console.log("FACEBOOK LOGIN REQ BODY", req.body);
-  const { userID, accessToken } = req.body;
+  const { userID, accessToken } = req.body; // Get id and token from React
 
-  const url = `https://graph.facebook.com/v2.11/${userID}/?fields=id,name,email&access_token=${accessToken}`;
+  const url = `https://graph.facebook.com/v2.11/${userID}/?fields=id,name,email&access_token=${accessToken}`; // Get from facebook
 
   return (
     fetch(url, {
@@ -417,8 +417,8 @@ exports.facebookController = (req, res) => {
       .then((response) => response.json())
       // .then(response => console.log(response))
       .then((response) => {
-        const { email, name } = response;
-        User.findOne({ email }).exec((err, user) => {
+        const { email, name } = response; //Get email and password from facebook
+        User.findOne({ email }).exec((err, user) => { //Check if this account already exists with inputted email
           if (user) {
             const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
               expiresIn: "7d",
@@ -429,7 +429,7 @@ exports.facebookController = (req, res) => {
               user: { _id, email, name, role },
             });
           } else {
-            let password = email + process.env.JWT_SECRET;
+            let password = email + process.env.JWT_SECRET; //generate password and save to database as new user
             user = new User({ name, email, password });
             user.save((err, data) => {
               if (err) {
@@ -438,6 +438,7 @@ exports.facebookController = (req, res) => {
                   error: "User signup failed with facebook",
                 });
               }
+              // if no error
               const token = jwt.sign(
                 { _id: data._id },
                 process.env.JWT_SECRET,

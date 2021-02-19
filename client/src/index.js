@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import App from './App.jsx';
-import Login from './screens/Login.jsx';
+import Login from './screens/login/Login.jsx';
 import Register from './screens/Register.jsx';
 import Activate from './screens/Activate.jsx';
 import Private from './screens/Private.jsx';
@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
+      {/* would like to find way to have '/' path be login if the user is not already logged in */}
       <Route path='/' exact render={props => <App {...props} />} />
       <Route path='/login' exact render={props => <Login {...props} />} />
       <Route path='/register' exact render={props => <Register {...props} />} />
