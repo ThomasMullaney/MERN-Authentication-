@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import App from './App.jsx';
 import Login from './screens/login/Login.jsx';
-import Register from './screens/Register.jsx';
+import Register from './screens/signup/Register.jsx';
 import Activate from './screens/Activate.jsx';
 import Private from './screens/Private.jsx';
 import Admin from './screens/Admin.jsx';

@@ -1,0 +1,173 @@
+html, body {
+    overflow: hidden;
+}
+
+h1 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 800;
+    color: rgb(254, 255, 254);
+    
+}
+
+form {
+    color: black;
+    margin-top: 2rem;
+}
+
+.innerForm {
+    margin: auto;
+    max-width: 15rem;
+    
+}
+
+.submitBtn {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    letter-spacing: 0.025em;
+    font-weight: 600;
+    background-color: black;
+    color: aliceblue;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}   
+
+.submitBtnIcon {
+    width: 1.5rem;
+    margin-left: -0.5rem;
+}
+
+.submitBtn:focus {
+    outline: none;
+}
+
+.signupInput {
+    width: auto;
+    border-radius: 0.55rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-width: 1px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    background: gainsboro;
+    margin: 1rem;
+}
+
+.signupInput:focus {
+    outline: none;
+    background-color: white;
+}
+
+.outerForm {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.parentDiv2 {
+    background-color: black;
+    min-height: 100vh;
+    justify-content: center;
+}
+
+.formContainer {
+    background-image: url(../../assets/SignupBG.gif);
+    background-size: cover;
+    background-repeat: no-repeat;
+    justify-content: center;
+    padding: 1.5rem;
+    margin: auto;
+    max-width: 50%;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+
+.pageBreak {
+    padding-right: 1rem;
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    /* display:inline-block; */
+    letter-spacing: 0.025em;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    color: whitesmoke;
+    border-bottom: 0.2rem solid;
+    border-color: black;
+    text-align: center;
+
+}
+
+.signInRedirectDiv {
+    flex: content;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.signInRedirect {
+    width: 100%;
+    font-weight: 700;
+    max-width: 20rem;
+    background-color: black;
+    border-radius: 0.5rem;
+    color: aliceblue;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+.signInRedirect:focus {
+    outline: none;
+}
+
+.signInRedirectIcon-Google, .signInRedirectIcon-Facebook {
+    margin-left: 2rem;
+    width: 1rem;
+    justify-content: start;
+    margin-top: auto;
+    margin-bottom: auto;
+ 
+}
+
+.signInRedirectIcon-Google:hover {
+    color:red
+}
+.signInRedirectIcon-Facebook:hover {
+color: #002fff;
+}
+.submitBtnIcon:hover {
+    color: green;
+}
+
+.signInRedirect:hover, .submitBtn:hover{
+    color: black;
+    background: white;
+    box-shadow: 0 0 10px #002fff, 0 0 40px #002fff, 0 0 80px #2196f3;
+}
+
+
+@media (max-width: 400px) { 
+    .formContainer {
+    max-width: 100%;
+    width: 100vw;
+    height: 100vh;
+    }
+}
+
+@media (max-width: 1280px) {
+    h1{
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    }
+}
+
