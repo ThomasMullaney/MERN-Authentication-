@@ -124,8 +124,8 @@ const Register = () => {
                 target="_self"
               >
                 <i className="signInRedirectIcon-Google fab fa-google fa " />
+                <span className=" justify-content-center">Sign In</span>
                 <i className="signInRedirectIcon-Facebook fab fa-facebook fa " />
-                <span className="ml-10 justify-content-center">Sign In</span>
               </a>
             </div>
           </form>

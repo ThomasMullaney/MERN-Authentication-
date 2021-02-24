@@ -1,0 +1,170 @@
+.profileParentDiv {
+    background-color: black;
+    min-height: 100vh;
+    justify-content: center;
+    
+}
+
+.profileViewDiv {
+    max-width: 1280px;
+    margin: auto;
+    background-color: rgb(0, 0, 0);
+    justify-content: center;
+}
+
+.profileInfoDiv {
+    padding: 1.5rem;
+}
+
+.profileInfo {
+    margin: 3rem;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profileTitle {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 800;
+}
+
+.profileForm {
+    width: 100%;
+    margin-top: 2rem;
+
+}
+
+.profileInputDiv {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 20rem;
+    position: relative;
+}
+
+
+.profileInputs {
+    width: 100%;
+    margin: .5rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: .5rem;
+    font-weight: 500;
+    border-width: 1px;
+    border-color: rgb(212, 211, 211);
+    /* background-color: gray; */
+    --tw-bg-opacity: 1;
+    background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
+}
+
+.profileInputs:focus {
+    outline: none;
+    background-color: whitesmoke;
+}
+
+.profileSubmitBtn {
+    color: white;
+    background-color: black;
+    width: 100%;
+    font: bolder;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-radius: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: .8;
+    font-weight: 600; 
+    display: inline-block;
+}
+
+.profileSubmitBtn:hover, .homeBtnInterior:hover {
+    color: black;
+    background: white;
+    box-shadow: 0 0 10px #002fff, 0 0 40px #002fff, 0 0 80px #2196f3;
+}
+
+.profileSubmitBtn:focus {
+    outline: none;
+    
+}
+
+.pageBreak {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.pageBreakText {
+    padding-left: .5rem;
+    padding-right: .5rem;
+    display: inline-block;
+    letter-spacing: 0.025em;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    background-color: black;
+    border-bottom: white solid;
+}
+
+.homeBtn {
+    flex-direction: column;
+    align-items: center;
+}
+.Icon {
+    color: white;
+    width: 1.5rem;
+    margin-left: -.5rem;
+}
+
+.homeBtnInterior {
+    width: 100%;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    padding-left: .75rem;
+    padding-right: .75rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.25rem;
+    max-width: 20rem;
+    color: whitesmoke;
+}
+
+.map {
+    height:850px
+}
+
+@media (min-width: 640px) { 
+    .profileDiv {
+        margin: 5rem;
+        border-radius: .55rem;
+    }
+
+    .profileInfoDiv {
+        padding: 3rem;
+    }
+ }
+
+
+ @media (min-width: 1024px) {
+    .profileInfoDiv{
+        width: 50%;
+    }
+ }
+
+ @media (min-width: 1280px){
+    .profileInfoDiv{
+        width: 41.6666%;
+    }
+
+    .profileInfo {
+        /* font-size: 1.875rem;
+        line-height: 2.25rem; */
+    }
+ }

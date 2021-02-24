@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import authSvg from '../assets/update.svg';
+import authSvg from '../../assets/update.svg';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
-import { updateUser, isAuth, getCookie, signout } from '../helpers/auth';
+import { updateUser, isAuth, getCookie, signout } from '../../helpers/auth';
+import "./profile.style.css";
+import Map from "./map/Map"
 
 const Private = ({ history }) => {
   const [formData, setFormData] = useState({
@@ -73,36 +75,36 @@ const Private = ({ history }) => {
   };
 
   return (
-    <div className='min-h-screen bg-gray-100 text-gray-900 flex justify-center'>
+    <div className='profileParentDiv flex'>
       <ToastContainer />
-      <div className='max-w-screen-xl m-0 sm:m-20 bg-white shadow sm:rounded-lg flex justify-center flex-1'>
-        <div className='lg:w-1/2 xl:w-5/12 p-6 sm:p-12'>
-          <div className='mt-12 flex flex-col items-center'>
-            <h1 className='text-2xl xl:text-3xl font-extrabold'>
+      <div className='profileViewDiv shadow  flex flex-1'>
+        <div className='profileInfoDiv'>
+          <div className='profileInfo flex'>
+            <h1 className='profileTitle'>
               Profile Update
             </h1>
 
             <form
-              className='w-full flex-1 mt-8 text-indigo-500'
+              className='profileForm flex-1'
               onSubmit={handleSubmit}
             >
-              <div className='mx-auto max-w-xs relative '>
+              <div className='profileInputDiv'>
                 <input
                   disabled
-                  className='w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white'
+                  className='profileInputs'
                   type='text'
                   placeholder='Role'
                   value={role}
                 />
                 <input
-                  className='w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5'
+                  className='profileInputs '
                   type='email'
                   placeholder='Email'
                   disabled
                   value={email}
                 />
                 <input
-                  className='w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5'
+                  className='profileInputs '
                   type='text'
                   placeholder='Name'
                   onChange={handleChange('name')}
@@ -110,7 +112,7 @@ const Private = ({ history }) => {
                 />
 
                 <input
-                  className='w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5'
+                  className='profileInputs'
                   type='password'
                   placeholder='Password'
                   onChange={handleChange('password1')}
@@ -118,36 +120,36 @@ const Private = ({ history }) => {
                 />
                 <button
                   type='submit'
-                  className='mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none'
+                  className='profileSubmitBtn flex focus:shadow-outline'
                 >
-                  <i className='fas fa-user-plus fa 1x w-6  -ml-2' />
+                  <i className='Icon fas fa-user-plus fa 1x ' />
                   <span className='ml-3'>{textChange}</span>
                 </button>
               </div>
-              <div className='my-12 border-b text-center'>
-                <div className='leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2'>
+              <div className='pageBreak'>
+                <div className='pageBreakText'>
                   Go To Home
                 </div>
               </div>
-              <div className='flex flex-col items-center'>
+              <div className='homeBtn flex'>
                 <a
-                  className='w-full max-w-xs font-bold shadow-sm rounded-lg py-3
-           bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mt-5'
+                  className='homeBtnInterior flex focus:outline-none focus:shadow-outline '
                   href='/'
                   target='_self'
                 >
-                  <i className='fas fa-sign-in-alt fa 1x w-6  -ml-2 text-indigo-500' />
+                  <i className='fas fa-home fa 1x' />
                   <span className='ml-4'>Home</span>
                 </a>
               </div>
             </form>
           </div>
         </div>
-        <div className='flex-1 bg-indigo-100 text-center hidden lg:flex'>
-          <div
+        <div className='map '>
+          <Map />
+          {/* <div
             className='m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat'
             style={{ backgroundImage: `url(${authSvg})` }}
-          ></div>
+          ></div> */}
         </div>
       </div>
       ;

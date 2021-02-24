@@ -119,16 +119,14 @@ const Login = ({ history }) => {
       {isAuth() ? <Redirect to="/" /> : null}
       <ToastContainer />
       <div className="loginDiv">
-        <h1 className="spinItTitle">
-          Sign In for SpinIt
-        </h1>
-        
-        <div className="itemContainer"> 
-        <form className="emailLogin relative " onSubmit={handleSubmit}>
+        <h1 className="spinItTitle">Sign In for SpinIt</h1>
+
+        <div className="itemContainer">
+          <form className="emailLogin relative " onSubmit={handleSubmit}>
             <input
               className="emailInputs focus:outline-none"
               type="email"
-              placeholder="Email" 
+              placeholder="Email"
               onChange={handleChange("email")}
               value={email}
             />
@@ -138,7 +136,7 @@ const Login = ({ history }) => {
               placeholder="Password"
               onChange={handleChange("password1")}
               value={password1}
-            />  
+            />
             <button
               type="submit"
               className="signInBtn rounded-lg flex focus:outline-none focus:shadow-outline"
@@ -159,7 +157,7 @@ const Login = ({ history }) => {
               Not on the list?
             </div>
           </div>
-          
+
           <div className="buttonContainer flex ">
             <GoogleLogin
               clientId={`${process.env.REACT_APP_GOOGLE_CLIENT}`}
@@ -193,26 +191,35 @@ const Login = ({ history }) => {
                   className="btn-facebook flex focus:outline-none animate-pulse focus:shadow-outline"
                 >
                   <div>
-                    <i className="fa fa-facebook" onMouseOver={({ target }) => (target.style.color = "blue")} />
+                    <i
+                      className="fa fa-facebook"
+                      onMouseOver={({ target }) =>
+                        (target.style.color = "blue")
+                      }
+                    />
                   </div>
                   <span>Sign In </span>
                 </button>
               )}
             />
-          {/* signup */}
+            {/* signup */}
             <a
               className="btn-signup flex focus:outline-none animate-pulse focus:shadow-outline"
               href="/register"
               target="_self"
-            > <button>
-              <div>
-              <i className="fa fa-user-plus" onMouseOver={({ target }) => (target.style.color = "green")} />
-              <span>Sign Up</span>
-              </div>
+            >
+              {" "}
+              <button>
+                <div>
+                  <i
+                    className="fa fa-user-plus"
+                    onMouseOver={({ target }) => (target.style.color = "green")}
+                  />
+                  <span>Sign Up</span>
+                </div>
               </button>
             </a>
           </div>
-        
         </div>
       </div>
     </div>

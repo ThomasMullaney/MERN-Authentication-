@@ -5,7 +5,7 @@ import App from './App.jsx';
 import Login from './screens/login/Login.jsx';
 import Register from './screens/signup/Register.jsx';
 import Activate from './screens/Activate.jsx';
-import Private from './screens/Private.jsx';
+import Private from './screens/profile/Private.jsx';
 import Admin from './screens/Admin.jsx';
 import ForgetPassword from './screens/ForgetPassword.jsx';
 import ResetPassword from './screens/ResetPassword.jsx';

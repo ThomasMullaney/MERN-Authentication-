@@ -122,6 +122,7 @@ exports.activationController = (req, res) => {
 };
 
 exports.signinController = (req, res) => {
+  
   const { email, password } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -157,7 +158,7 @@ exports.signinController = (req, res) => {
           expiresIn: "7d",
         }
       );
-      const { _id, name, email, role } = user;
+      const { _id, name, email, role, position } = user;
 
       return res.json({
         token,
@@ -166,6 +167,7 @@ exports.signinController = (req, res) => {
           name,
           email,
           role,
+          position,
         },
       });
     });
@@ -344,7 +346,7 @@ exports.googleController = (req, res) => {
   client
     .verifyIdToken({
       idToken,
-      audience: process.env.GOOGLE_CLIENT
+      audience: process.env.GOOGLE_CLIENT,
     })
     .then((response) => {
       // console.log("GOOGLE LOGIN RESPONSE", response)
@@ -359,11 +361,11 @@ exports.googleController = (req, res) => {
               expiresIn: "7d",
             });
 
-            const { _id, email, name, role } = user;
+            const { _id, email, name, role, position } = user;
             // send response to client side(react) token and user info
             return res.json({
               token,
-              user: { _id, email, name, role },
+              user: { _id, email, name, role, position },
             });
           } else {
             // if user does not exists we will save in database and generate passwordfor it
@@ -382,7 +384,7 @@ exports.googleController = (req, res) => {
                 process.env.JWT_SECRET,
                 { expiresIn: "7d" }
               );
-              const { _id, email, name, role } = data;
+              const { _id, email, name, role, position } = data;
               return res.json({
                 token,
                 user: {
@@ -390,6 +392,7 @@ exports.googleController = (req, res) => {
                   email,
                   name,
                   role,
+                  position
                 },
               });
             });
@@ -418,15 +421,16 @@ exports.facebookController = (req, res) => {
       // .then(response => console.log(response))
       .then((response) => {
         const { email, name } = response; //Get email and password from facebook
-        User.findOne({ email }).exec((err, user) => { //Check if this account already exists with inputted email
+        User.findOne({ email }).exec((err, user) => {
+          //Check if this account already exists with inputted email
           if (user) {
             const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
               expiresIn: "7d",
             });
-            const { _id, email, name, role } = user;
+            const { _id, email, name, role, position } = user;
             return res.json({
               token,
-              user: { _id, email, name, role },
+              user: { _id, email, name, role, position },
             });
           } else {
             let password = email + process.env.JWT_SECRET; //generate password and save to database as new user
@@ -444,10 +448,10 @@ exports.facebookController = (req, res) => {
                 process.env.JWT_SECRET,
                 { expiresIn: "7d" }
               );
-              const { email, _id, name, role } = data;
+              const { email, _id, name, role, position } = data;
               return res.json({
                 token,
-                user: { _id, email, name, role },
+                user: { _id, email, name, role, position },
               });
             });
           }

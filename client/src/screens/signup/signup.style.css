@@ -1,5 +1,5 @@
 html, body {
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 h1 {
@@ -119,11 +119,12 @@ form {
     font-weight: 700;
     max-width: 20rem;
     background-color: black;
-    border-radius: 0.5rem;
+    border-radius: 0.5rem;  
     color: aliceblue;
     padding-top: 1rem;
     padding-bottom: 1rem;
     margin-top: 2rem;
+    justify-content: center;
 }
 
 .signInRedirect:focus {
@@ -132,11 +133,11 @@ form {
 
 .signInRedirectIcon-Google, .signInRedirectIcon-Facebook {
     margin-left: 2rem;
+    margin-right: 2rem;
     width: 1rem;
-    justify-content: start;
     margin-top: auto;
     margin-bottom: auto;
- 
+    
 }
 
 .signInRedirectIcon-Google:hover {
