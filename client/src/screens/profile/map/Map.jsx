@@ -21,6 +21,8 @@ import {
   ComboboxList,
   ComboboxOption,
 } from "@reach/combobox";
+import axios from "axios";
+import { updateUser, getCookie} from "../../../helpers/auth";
 import "@reach/combobox/styles.css";
 
 const libraries = ["places"];
@@ -37,6 +39,10 @@ const options = {
   disableDefaultUI: true,
   zoomControl: true,
 };
+
+
+
+
 // -----------------working on toggle of map
 // class Mapp extends React.component {
 //   constructor() {
@@ -52,7 +58,7 @@ const options = {
 //   }
 //   render() {
 //     return (
-//       <div> 
+//       <div>
 //         <button onClick={this.toggleHidden.bind(this)} >
 //           click to toggle map
 //         </button>
@@ -64,18 +70,65 @@ const options = {
 
 // --------------------------------------------------------------------
 
-
-
 export default function Map() {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_KEY,
     libraries,
   });
 
+
+  // work in progress sending location data to post in db ------------------------------------------------------
+  // const [locationData, setLocationData] = useState ({
+  //   lat: null,
+  //   lng: null,
+  //   userAdress: null
+  // })
+
+  // const { lat, lng, userAdress} = locationData;
+  // const handleChange = (position) => (e) => {
+  //   setLocationData({ ...locationData, lat: e.target.value });
+  // };
+
+  // const handleLocation = (position, e) => {
+  //   const token = getCookie("token");
+  //   console.log(token);
+  //   e.preventDefault();
+  //   setLocationData({ ...locationData});
+  //   axios
+  //     .put(
+  //       `${process.env.REACT_APP_API_URL}/user/update`,
+  //       {
+  //         lat: position.coords.latitude,
+  //         lng: position.coords.longitutde,
+  //         userAdress: null,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       updateUser(res, () => {
+  //           toast.success("Location Updated Successfully");
+  //           setLocationData({
+  //             ...locationData
+  //           });
+  //       })
+  //     }).catch((err) => {
+  //       console.log(err.response)
+  //     })
+  // }
+  // ---------------------------------------------------------------------
+
   const [markers, setMarkers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
- 
 
+  const panTo = React.useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(14);
+  }, []);
+  
   const onMapClick = React.useCallback((event) => {
     setMarkers((current) => [
       ...current,
@@ -98,10 +151,10 @@ export default function Map() {
 
   return (
     <div>
-     
       <h1 className="maph1">Word on the Street</h1>
 
-      <Search />
+      <Search panTo={panTo} />
+      <Locate panTo={panTo} />
 
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -145,7 +198,26 @@ export default function Map() {
   );
 }
 
-function Search() {
+function Locate({ panTo }) {
+  return(
+  <button className="locate"
+  onClick={() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        panTo({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        })
+      },
+       () => null
+       );
+  }}
+  >
+    <img src="compass.jpg" alt="compass - locate me"/> 
+  </button>
+  )}
+
+function Search({ panTo }) {
   const {
     ready,
     value,
@@ -162,8 +234,18 @@ function Search() {
   return (
     <div className="search">
       <Combobox
-        onSelect={(address) => {
-        
+        onSelect={async (address) => {
+          setValue(address, false);
+          clearSuggestions();
+
+          try {
+            const results = await getGeocode({ address });
+            const { lat, lng } = await getLatLng(results[0]);
+            panTo({ lat, lng });
+          } catch (error) {
+            console.log(error);
+          }
+          console.log(address);
         }}
       >
         <ComboboxInput
@@ -175,15 +257,16 @@ function Search() {
           placeholder="Enter an Address"
         />
         <ComboboxPopover>
+        <ComboboxList>
           {status === "OK" &&
             data.map(({ id, description }) => (
               <ComboboxOption key={id} value={description} />
             ))}
+            </ComboboxList>
         </ComboboxPopover>
       </Combobox>
     </div>
   );
 }
-
 
 // export default Map;

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, setState } from "react";
 import authSvg from "../../assets/update.svg";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { updateUser, isAuth, getCookie, signout } from "../../helpers/auth";
+import Geo from "../profile/map/geolocate.example"
 import "./profile.style.css";
 import Map from "./map/Map";
 
@@ -13,12 +14,11 @@ const Private = ({ history }) => {
     password1: "",
     textChange: "Update",
     role: "",
-    position: "",
-    
+    address1: ""
   });
 
-  const [showMap, setShow] = useState(false)
 
+  const [showMap, setShow] = useState(false)
   const toggleMapOn = () => setShow(true)
   const toggleMapOff = () => setShow(false)
 
@@ -36,8 +36,8 @@ const Private = ({ history }) => {
         },
       })
       .then((res) => {
-        const { role, name, email } = res.data;
-        setFormData({ ...formData, role, name, email });
+        const { role, name, email, address } = res.data;
+        setFormData({ ...formData, role, name, email, address });
       })
       .catch((err) => {
         toast.error(`Error To Your Information ${err.response.statusText}`);
@@ -49,7 +49,7 @@ const Private = ({ history }) => {
       });
   };
 
-  const { name, email, password1, textChange, role } = formData;
+  const { name, email, password1, textChange, role, address1} = formData;
   const handleChange = (text) => (e) => {
     setFormData({ ...formData, [text]: e.target.value });
   };
@@ -67,6 +67,7 @@ const Private = ({ history }) => {
           name,
           email,
           password: password1,
+          address: address1
         },
         {
           headers: {
@@ -83,7 +84,8 @@ const Private = ({ history }) => {
       .catch((err) => {
         console.log(err.response);
       });
-  };
+    };
+
 
   return (
     <div className="profileParentDiv flex">
@@ -124,38 +126,47 @@ const Private = ({ history }) => {
                   onChange={handleChange("password1")}
                   value={password1}
                 />
-                <button
-                  type="submit"
-                  className="profileSubmitBtn flex focus:shadow-outline"
-                >
-                  <i className="Icon fas fa-user-plus fa 1x " />
-                  <span className="ml-3">{textChange}</span>
-                </button>
+                <input
+                  className="profileInputs"
+                  type="text"
+                  placeholder="Address"
+                  onChange={handleChange("address1")}
+                  value={address1}
+                />
+                
+              <button
+                type="submit"
+                className="profileSubmitBtn flex focus:shadow-outline"
+              >
+                <i className="Icon fas fa-user-plus fa 1x " />
+                <span className="ml-3">{textChange}</span>
+              </button>
               </div>
-              <div className="pageBreak">
-                <div className="pageBreakText">Go To Home</div>
-              </div>
-              <div className="homeBtn flex">
-                <a
-                  className="homeBtnInterior flex focus:outline-none focus:shadow-outline "
-                  href="/"
-                  target="_self"
-                >
-                  <i className="fas fa-home fa 1x" />
-                  <span className="ml-4">Home</span>
-                </a>
-              </div>
-            </form>
-          </div>
-        </div>
-        <div>
-                <input type="submit" value="Toggle Map On" onClick={toggleMapOn} />
-                <input type="submit" value="Toggle Map Off" onClick={toggleMapOff} />
-                {showMap ? <Map /> : null}
+            <div className="pageBreak">
+              <div className="pageBreakText">Go To Home</div>
             </div>
+            <div className="homeBtn flex">
+              <a
+                className="homeBtnInterior flex focus:outline-none focus:shadow-outline "
+                href="/"
+                target="_self"
+              >
+                <i className="fas fa-home fa 1x" />
+                <span className="ml-4">Home</span>
+              </a>
+            </div>
+            </form>
+        </div>
       </div>
-      ;
+      <div>
+        <input type="submit" value="Toggle Map On" onClick={toggleMapOn} />
+        <input type="submit" value="Toggle Map Off" onClick={toggleMapOff} />
+        {showMap ? <Map /> : null}
+
+      </div>
     </div>
+      ;
+    </div >
   );
 };
 

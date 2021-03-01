@@ -12,65 +12,40 @@ const Login = ({ history }) => {
     email: "",
     password1: "",
     textChange: "Sign In",
+    
   });
   const { email, password1, textChange } = formData;
 
-  // handle changes from inputs
+  // geolocation on login work in progress --------------------------------------------
+
+
+ 
+
+  // const geoLocate = React.useCallback(() => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(this.getCoordinates);
+  //     console.log(this.geolocation)
+  //   } else {
+  //     alert("Geolocation not supported or request denied");
+  //   }
+  // });
+
+  // const getCoordinates = React.useCallback((position) => {
+  //   console.log(position.coords.latitude);
+  //   this.setState({
+  //     latitude: position.coords.latitude,
+  //     longitude: position.coords.longitude,
+  //   });
+  // });
+
+  // getCoordinates();
+  // geoLocate();
+  
+  //  ------------------------------------------------------------------------------------------
+
+  // handle changes from input fields ----------------------------------------------------------------
   const handleChange = (text) => (e) => {
     setFormData({ ...formData, [text]: e.target.value });
-  };
-
-  // send google token
-  const sendGoogleToken = (tokenId) => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/googlelogin`, {
-        idToken: tokenId,
-      })
-      .then((res) => {
-        console.log(res.data);
-        informParent(res);
-      })
-      .catch((error) => {
-        console.log("GOOGLE SIGNIN ERROR", error.response);
-        toast.err("Google login error");
-      });
-  };
-
-  // get response from google
-  const responseGoogle = (response) => {
-    console.log(response);
-    sendGoogleToken(response.tokenId);
-  };
-
-  // if success we need to authenticate user and redirect
-  const informParent = (response) => {
-    authenticate(response, () => {
-      isAuth() && isAuth().role === "admin"
-        ? history.push("/admin")
-        : history.push("/private");
-    });
-  };
-
-  // send facebook token
-  const sendFacebookToken = (userID, accessToken) => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/facebooklogin`, {
-        userID,
-        accessToken,
-      })
-      .then((res) => {
-        console.log(res.data);
-        informParent(res);
-      })
-      .catch((error) => {
-        console.log("GOOGLE SIGNIN ERROR", error.response);
-      });
-  };
-
-  // get facebook response
-  const responseFacebook = (response) => {
-    console.log(response);
-    sendFacebookToken(response.userID, response.accessToken);
   };
 
   // submit data to backend
@@ -113,6 +88,63 @@ const Login = ({ history }) => {
     }
   };
 
+  //Google OAuth ------------------------------------------------------------------------------------------
+  // send google token
+  const sendGoogleToken = (tokenId) => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/googlelogin`, {
+        idToken: tokenId,
+      })
+      .then((res) => {
+        console.log(res.data);
+        informParent(res);
+      })
+      .catch((error) => {
+        console.log("GOOGLE SIGNIN ERROR", error.response);
+        toast.err("Google login error");
+      });
+  };
+
+  // get response from google
+  const responseGoogle = (response) => {
+    console.log(response);
+    sendGoogleToken(response.tokenId);
+  };
+  // ---------------------------------------------------------------------------
+  // if success we need to authenticate user and redirect. Used in both Facebook and Google
+  const informParent = (response) => {
+    authenticate(response, () => {
+      isAuth() && isAuth().role === "admin"
+        ? history.push("/admin")
+        : history.push("/private");
+    });
+  };
+
+  // facebook Login ----------------------------------------------------------------------------
+  // send facebook token
+  const sendFacebookToken = (userID, accessToken) => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/facebooklogin`, {
+        userID,
+        accessToken,
+      })
+      .then((res) => {
+        console.log(res.data);
+        informParent(res);
+      })
+      .catch((error) => {
+        console.log("GOOGLE SIGNIN ERROR", error.response);
+      });
+  };
+
+  // get facebook response
+  const responseFacebook = (response) => {
+    console.log(response);
+    sendFacebookToken(response.userID, response.accessToken);
+  };
+  // -----------------------------------------------------------------------------------------------
+
+  // Return HTML -----------------------------------------------------------------------------------
   return (
     <div className="parentDiv min-h-screen flex">
       <div id="fb-root"></div>
