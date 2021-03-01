@@ -3,7 +3,7 @@ import authSvg from "../../assets/update.svg";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { updateUser, isAuth, getCookie, signout } from "../../helpers/auth";
-import Geo from "../profile/map/geolocate.example"
+import Geo from "../profile/map/geolocate.example";
 import "./profile.style.css";
 import Map from "./map/Map";
 
@@ -14,13 +14,12 @@ const Private = ({ history }) => {
     password1: "",
     textChange: "Update",
     role: "",
-    address1: ""
+    address1: "",
   });
 
-
-  const [showMap, setShow] = useState(false)
-  const toggleMapOn = () => setShow(true)
-  const toggleMapOff = () => setShow(false)
+  const [showMap, setShow] = useState(false);
+  const toggleMapOn = () => setShow(true);
+  const toggleMapOff = () => setShow(false);
 
   useEffect(() => {
     loadProfile();
@@ -49,17 +48,31 @@ const Private = ({ history }) => {
       });
   };
 
-  const { name, email, password1, textChange, role, address1} = formData;
+  const { name, email, password1, textChange, role, address1 } = formData;
   const handleChange = (text) => (e) => {
     setFormData({ ...formData, [text]: e.target.value });
   };
 
+  // handleLocation
+  // const handleLocation = (e) => {
+  // if (navigator.geolocation) {
+  //   navigator.geolocation.getCurrentPosition(this.getCoords);
+  // } else { alert("geolocation request denied")}
+  //   const token = getCookie("token");
+  //   e.preventDefault();
+  // }
+
+  // const getCoords = (position) => {
+    
+  // }
+  
   // handle submit
   const handleSubmit = (e) => {
     const token = getCookie("token");
     console.log(token);
     e.preventDefault();
     setFormData({ ...formData, textChange: "Submitting" });
+    console.log(address1);
     axios
       .put(
         `${process.env.REACT_APP_API_URL}/user/update`,
@@ -67,7 +80,7 @@ const Private = ({ history }) => {
           name,
           email,
           password: password1,
-          address: address1
+          address: address1,
         },
         {
           headers: {
@@ -75,7 +88,9 @@ const Private = ({ history }) => {
           },
         }
       )
+     
       .then((res) => {
+        console.log(res)
         updateUser(res, () => {
           toast.success("Profile Updated Successfully");
           setFormData({ ...formData, textChange: "Update" });
@@ -84,8 +99,7 @@ const Private = ({ history }) => {
       .catch((err) => {
         console.log(err.response);
       });
-    };
-
+  };
 
   return (
     <div className="profileParentDiv flex">
@@ -133,40 +147,39 @@ const Private = ({ history }) => {
                   onChange={handleChange("address1")}
                   value={address1}
                 />
-                
-              <button
-                type="submit"
-                className="profileSubmitBtn flex focus:shadow-outline"
-              >
-                <i className="Icon fas fa-user-plus fa 1x " />
-                <span className="ml-3">{textChange}</span>
-              </button>
+
+                <button
+                  type="submit"
+                  className="profileSubmitBtn flex focus:shadow-outline"
+                >
+                  <i className="Icon fas fa-user-plus fa 1x " />
+                  <span className="ml-3">{textChange}</span>
+                </button>
               </div>
-            <div className="pageBreak">
-              <div className="pageBreakText">Go To Home</div>
-            </div>
-            <div className="homeBtn flex">
-              <a
-                className="homeBtnInterior flex focus:outline-none focus:shadow-outline "
-                href="/"
-                target="_self"
-              >
-                <i className="fas fa-home fa 1x" />
-                <span className="ml-4">Home</span>
-              </a>
-            </div>
+              <div className="pageBreak">
+                <div className="pageBreakText">Go To Home</div>
+              </div>
+              <div className="homeBtn flex">
+                <a
+                  className="homeBtnInterior flex focus:outline-none focus:shadow-outline "
+                  href="/"
+                  target="_self"
+                >
+                  <i className="fas fa-home fa 1x" />
+                  <span className="ml-4">Home</span>
+                </a>
+              </div>
             </form>
+          </div>
+        </div>
+        <div>
+          <input type="submit" value="Toggle Map On" onClick={toggleMapOn} />
+          <input type="submit" value="Toggle Map Off" onClick={toggleMapOff} />
+          {showMap ? <Map /> : null}
         </div>
       </div>
-      <div>
-        <input type="submit" value="Toggle Map On" onClick={toggleMapOn} />
-        <input type="submit" value="Toggle Map Off" onClick={toggleMapOff} />
-        {showMap ? <Map /> : null}
-
-      </div>
-    </div>
       ;
-    </div >
+    </div>
   );
 };
 

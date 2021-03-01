@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const crypto = require('crypto');
+const geocoder = require('../helpers/geoCoder');
 
 
 // User Schema
@@ -12,28 +13,35 @@ const userSchema = new mongoose.Schema(
             unique: true,
             lowercase: true
         },
+        
         name: {
             type: String,
             trim: true,
             required: true
         },
+
         hashed_password: {
             type: String,
             required: true
         },
         salt: String,
+
         role: {
             type: String,
             default: 'subscriber'
         },
+
         resetPasswordLink: {
             data: String,
             default: ''
         },
+
         address: {
             type: String,
+            required: true,
             default: ""
         },
+
        location: {
            type: {
                type: String,
@@ -50,6 +58,8 @@ const userSchema = new mongoose.Schema(
         timestamps: true
     }
 );
+
+
 
 // virtual password
 userSchema

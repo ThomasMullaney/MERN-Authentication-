@@ -19,6 +19,7 @@ app.use(bodyParser.json())
 // load routes
 const authRouter = require('./routes/auth.route');
 const userRouter = require('./routes/user.route');
+const mapRouter = require('./routes/map.route');
 
 
 // dev login middleware
@@ -32,6 +33,7 @@ if (process.env.NODE_ENV === 'development') {
 // use Routes
 app.use('/api', authRouter)
 app.use('/api', userRouter)
+app.use('/api', mapRouter)
 
 app.use((req, res) => {
     res.status(404).json({

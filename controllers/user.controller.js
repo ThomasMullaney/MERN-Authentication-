@@ -17,7 +17,7 @@ exports.readController = (req, res) => {
 
 exports.updateController = (req, res) => {
   // console.log('UPDATE USER - req.user, 'UPDATE DATA', req.body);
-  const { name, password } = req.body;
+  const { name, password, address } = req.body;
 
   User.findOne({ _id: req.user._id }, (err, user) => {
     if (err || !user) {
@@ -43,6 +43,20 @@ exports.updateController = (req, res) => {
       }
     }
 
+    if (!address) {
+      return res.status(400).json({
+        error: "Address is required",
+      });
+    } else {
+      user.address = address;
+    }
+
+    // geocode and create location
+    userSchema.pre("update", async function (next) {
+      const loc = await geocoder.geocode(this.address);
+      console.log(loc);
+    });
+    
     user.save((err, updatedUser) => {
       if (err) {
         console.log("USER UPDATE ERROR", err);
