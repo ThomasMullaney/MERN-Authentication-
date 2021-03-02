@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const crypto = require('crypto');
-const geocoder = require('../helpers/geoCoder');
-
+const {Client} = require("@googlemaps/google-maps-services-js");
 
 // User Schema
 const userSchema = new mongoose.Schema(
@@ -59,6 +58,38 @@ const userSchema = new mongoose.Schema(
     }
 );
 
+userSchema.pre("save", async function (next) {
+    if (this.isModified("address")) {
+        // geocoding through google
+        const client = new Client({});
+        let params = {
+            address: this.address,
+            coponents: 'country:US',
+            key: process.env.REACT_APP_GOOGLE_KEY
+        }
+        client.geocode({
+            params: params
+        }).then(response => {
+            const address = response.data.results[0];
+            console.log(address)
+            const formattedAddress = address.formatted_address;
+            const addLat = address.geometry.location.lat;
+            const addLng = address.geometry.location.lng;
+            this.location = {
+                type: 'Point',
+                coordinates: [addLat, addLng],
+                formattedAddress: formattedAddress,
+            }
+            console.log(addLat, addLng)
+            console.log(this.location)
+        }).catch(error => {
+            console.log(error)
+        });
+    }
+    next();
+    // const loc = await geocoder.geocode(this.address);
+    // console.log(loc);
+  });
 
 
 // virtual password

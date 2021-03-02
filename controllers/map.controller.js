@@ -17,6 +17,17 @@ exports.getUsers = async (req, res, next) => {
     }
 }
 
+// exports.postLocation = async ( req, res, next) => {
+//     try {
+//         if ('geolocation' in navigator) {
+//             console.log('geolocation available');
+//             navigator.geolocation.getCurrentPosition(position => {
+//               console.log(position)
+//             })
+//           }
+//     }
+// }
+
 // vauge possible feature create "store" post request could be used for creating any object you make schema of
 exports.createStore = async (req, res, next) => {
     try {

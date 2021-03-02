@@ -123,6 +123,7 @@ exports.activationController = (req, res) => {
 
 exports.signinController = (req, res) => {
   
+
   const { email, password } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -158,7 +159,7 @@ exports.signinController = (req, res) => {
           expiresIn: "7d",
         }
       );
-      const { _id, name, email, role, position } = user;
+      const { _id, name, email, role,} = user;
 
       return res.json({
         token,
@@ -167,7 +168,7 @@ exports.signinController = (req, res) => {
           name,
           email,
           role,
-          position,
+          
         },
       });
     });

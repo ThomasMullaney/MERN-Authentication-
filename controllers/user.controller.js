@@ -1,5 +1,6 @@
 const User = require("../models/auth.model");
 const expressJwt = require("express-jwt");
+const geocoder = require("../helpers/geoCoder")
 
 exports.readController = (req, res) => {
   const userId = req.params.id;
@@ -51,11 +52,7 @@ exports.updateController = (req, res) => {
       user.address = address;
     }
 
-    // geocode and create location
-    userSchema.pre("update", async function (next) {
-      const loc = await geocoder.geocode(this.address);
-      console.log(loc);
-    });
+   
     
     user.save((err, updatedUser) => {
       if (err) {

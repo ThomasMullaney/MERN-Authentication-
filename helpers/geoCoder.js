@@ -6,7 +6,7 @@ const options = {
 
     httpAdapter: 'https',   
   // Optional depending on the providers
-  fetch: customFetchImplementation,
+  
   apiKey: process.env.REACT_APP_GOOGLE_KEY, // for Mapquest, OpenCage, Google Premier
   formatter: null // 'gpx', 'string', ...
 };
