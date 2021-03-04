@@ -80,7 +80,7 @@ userSchema.pre("save", async function (next) {
                 coordinates: [addLat, addLng],
                 formattedAddress: formattedAddress,
             }
-            console.log(addLat, addLng)
+            this.address=undefined
             console.log(this.location)
         }).catch(error => {
             console.log(error)

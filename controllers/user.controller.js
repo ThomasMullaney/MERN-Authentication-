@@ -1,6 +1,6 @@
 const User = require("../models/auth.model");
 const expressJwt = require("express-jwt");
-const geocoder = require("../helpers/geoCoder")
+
 
 exports.readController = (req, res) => {
   const userId = req.params.id;
