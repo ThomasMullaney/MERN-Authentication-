@@ -9,8 +9,11 @@ const { errorHandler } = require("../helpers/dbErrorHandlers");
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.MAIL_KEY);
 
+//controller for signup/register
 exports.registerController = (req, res) => {
+  //name email and password are what is given in the request.body
   const { name, email, password } = req.body;
+  //pass the request into the validationResult
   const errors = validationResult(req);
 
   //   if errors is not empty send errors
@@ -91,12 +94,13 @@ exports.activationController = (req, res) => {
         // get name email and password from token.
         const { name, email, password } = jwt.decode(token);
         console.log(email);
+        //constructor for new Users
         const user = new User({
           name,
           email,
           password,
         });
-
+        // save user to db
         user.save((err, user) => {
           if (err) {
             console.log("Save Error", errorHandler(err));
@@ -120,17 +124,21 @@ exports.activationController = (req, res) => {
   }
 };
 
+//Login controller
 exports.signinController = (req, res) => {
   
-
+  //take email and password from request and pass into validation
   const { email, password } = req.body;
   const errors = validationResult(req);
+  //if errors send erros
   if (!errors.isEmpty()) {
     const firstError = errors.array().map((error) => error.msg)[0];
     return res.status(422).json({
       errors: firstError,
     });
-  } else {
+  } 
+  // if no errors find User in DB
+  else {
     User.findOne({
       email,
     }).exec((err, user) => {
@@ -141,7 +149,7 @@ exports.signinController = (req, res) => {
         });
       }
 
-      // authenticate
+      // authenticate password matches with user
       if (!user.authenticate(password)) {
         return res.status(400).json({
           errors: "Email and password do not match",
@@ -173,6 +181,7 @@ exports.signinController = (req, res) => {
     });
   }
 };
+
 
 exports.requireSignin = expressJwt({
   secret: process.env.JWT_SECRET, // req.user._id

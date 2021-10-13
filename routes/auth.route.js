@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-// load controllers
+// load our programed  auth controllers
 const {
     registerController,
     activationController,
@@ -12,6 +12,7 @@ const {
     facebookController,
 } = require("../controllers/auth.controller");
 
+//load our programed validate helpers
 const {
     validSignUp,
     validLogin,
@@ -31,7 +32,6 @@ router.put('/forgotpassword',forgotPasswordValidator, forgotPasswordController);
 router.put('/resetpassword', resetPasswordController, resetPasswordValidator);
 
 // Google and Facebook Login
-
 router.post('/googlelogin', googleController);
 router.post('/facebooklogin', facebookController);
 
