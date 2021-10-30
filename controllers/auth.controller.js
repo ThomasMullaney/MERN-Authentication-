@@ -77,7 +77,7 @@ exports.registerController = (req, res) => {
   }
 };
 
-// Activation and save to DB
+// Activation and save to DB currently giving 401 error
 exports.activationController = (req, res) => {
   const { token } = req.body;
 
@@ -103,7 +103,7 @@ exports.activationController = (req, res) => {
         // save user to db
         user.save((err, user) => {
           if (err) {
-            console.log("Save Error", errorHandler(err));
+            console.log(err);
             return res.status(401).json({
               errors: errorHandler(err),
             });
@@ -126,7 +126,6 @@ exports.activationController = (req, res) => {
 
 //Login controller
 exports.signinController = (req, res) => {
-  
   //take email and password from request and pass into validation
   const { email, password } = req.body;
   const errors = validationResult(req);
@@ -148,7 +147,7 @@ exports.signinController = (req, res) => {
           errors: "User with that email does not exist. Please try again.",
         });
       }
-
+      
       // authenticate password matches with user
       if (!user.authenticate(password)) {
         return res.status(400).json({
